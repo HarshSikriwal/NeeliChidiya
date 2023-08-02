@@ -3,6 +3,7 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
+  swcMinify: true,
   images: {
     remotePatterns: [
       {
