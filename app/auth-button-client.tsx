@@ -11,7 +11,7 @@ export default function AuthButtonClient({
 }: {
   session: Session | null;
 }) {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
