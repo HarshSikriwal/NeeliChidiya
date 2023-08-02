@@ -3,10 +3,10 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
-export default function Likes({ tweet }) {
+export default function Likes({ tweet }: { tweet: TweetWithAuthor }) {
   const router = useRouter();
   const handleLikes = async () => {
-    const supabase = createClientComponentClient();
+    const supabase = createClientComponentClient<Database>();
     const {
       data: { user },
     } = await supabase.auth.getUser();
