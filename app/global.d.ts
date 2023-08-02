@@ -1,4 +1,4 @@
-import { Database as DB } from "@/lib/database.types";
+import { Database as DB } from "@/lib/database";
 
 type Tweet = DB["public"]["Tables"]["tweets"]["Row"];
 type Profile = DB["public"]["Tables"]["profiles"]["Row"];
