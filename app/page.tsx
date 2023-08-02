@@ -6,6 +6,7 @@ import AuthButtonServer from "./auth-button-server";
 import { redirect } from "next/navigation";
 import NewTweet from "./new-tweet";
 import Likes from "./likes";
+import Tweets from "./tweets";
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -33,18 +34,13 @@ export default async function Home() {
     })) ?? [];
 
   return (
-    <>
-      <AuthButtonServer />
+    <div className=" w-full max-w-xl mx-auto">
+      <div className="flex justify-between">
+        <h1>Home</h1>
+        <AuthButtonServer />
+      </div>
       <NewTweet />
-      {tweets?.map((tweet) => (
-        <div key={tweet.id}>
-          <p>
-            {tweet.author.name} {tweet.author.username}
-          </p>
-          <p>{tweet.title}</p>
-          <Likes tweet={tweet} />
-        </div>
-      ))}
-    </>
+      <Tweets tweets={tweets} />
+    </div>
   );
 }

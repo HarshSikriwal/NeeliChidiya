@@ -13,6 +13,7 @@ export default function NewTweet() {
       await supabase.from("tweets").insert({ title, user_id: user.id });
     }
   };
+
   return (
     <form action={addTweet}>
       <input name="title" className="bg-inherit" />
