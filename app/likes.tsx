@@ -13,9 +13,11 @@ export default function Likes({
   const router = useRouter();
   const handleLikes = async () => {
     const supabase = createClientComponentClient<Database>();
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
     if (user) {
       if (tweet.user_has_liked) {
         addOptimisticTweet({
@@ -38,6 +40,8 @@ export default function Likes({
           .insert({ user_id: user.id, tweet_id: tweet.id });
       }
       router.refresh();
+    } else {
+      window.alert("Please Login First");
     }
   };
 

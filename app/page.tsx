@@ -6,7 +6,7 @@ import AuthButtonServer from "./auth-button-server";
 import { redirect } from "next/navigation";
 import NewTweet from "./new-tweet";
 import Likes from "./likes";
-import Tweets from "./tweets";
+import Tweets from "./Tweets";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +17,6 @@ export default async function Home() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) {
-    redirect("/login");
-  }
-
   const { data } = await supabase
     .from("tweets")
     .select("*, author: profiles(*), likes(user_id)")
@@ -30,9 +26,14 @@ export default async function Home() {
     data?.map((tweet) => ({
       ...tweet,
       author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
-      user_has_liked: !!tweet.likes.find(
-        (like) => like.user_id === session.user.id
-      ),
+
+      user_has_liked: !!tweet.likes.find((like) => {
+        if (session) {
+          like.user_id === session.user.id;
+        } else {
+          false;
+        }
+      }),
       likes: tweet.likes.length,
     })) ?? [];
   console.log(tweets);
@@ -42,7 +43,16 @@ export default async function Home() {
         <h1 className="text-xl font-bold">Home</h1>
         <AuthButtonServer />
       </div>
-      <NewTweet user={session.user} />
+      {!session && (
+        <div className="flex justify-between border p-4 items-center">
+          <p>Please Login To Post Something</p>
+          <span className="rounded-lg bg-black font-bold px-4 py-2 text-black">
+            <AuthButtonServer />
+          </span>
+        </div>
+      )}
+      {session && <NewTweet user={session.user} />}
+
       <Tweets tweets={tweets} />
     </div>
   );

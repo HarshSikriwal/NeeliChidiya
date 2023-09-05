@@ -12,6 +12,7 @@ export default function GithubButton() {
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
+    console.log(location.origin);
   };
   return (
     <button onClick={handleSignIn} className="hover:bg-gray-800 p-8 rounded-xl">
