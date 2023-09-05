@@ -29,9 +29,9 @@ export default async function Home() {
 
       user_has_liked: !!tweet.likes.find((like) => {
         if (session) {
-          like.user_id === session.user.id;
+          return like.user_id === session.user.id;
         } else {
-          false;
+          return false;
         }
       }),
       likes: tweet.likes.length,
